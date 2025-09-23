@@ -1,9 +1,12 @@
-
 /* windows client */
-;function win(host=''){
+;function win(host='',path='win.php',prefix='win'){
 this.version='1.0.0';
 this.protocol=host.match(/^\d+\.\d+/)?'http:':'https:';
-this.host=[this.protocol,'',host,'win.php'].join('/');
+this.host=[this.protocol,'',host,path].join('/');
+this.prefix=prefix;
+this.on=async function(){
+  return await this.request('on');
+};
 this.test=async function(){
   return await this.request('test',arguments);
 };
@@ -15,7 +18,7 @@ this.pass=async function(cmd=''){
 };
 this.request=async function(method='test',args=[]){
   let res=await this.fetch(this.host,{
-    token:'win'+this.token(),
+    token:this.prefix+this.token(),
     method:method,
     args:JSON.stringify(args),
   });
@@ -43,5 +46,3 @@ this.temp=function(){
   return false;
 };
 };
-
-

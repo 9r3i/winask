@@ -4,6 +4,20 @@ this.version='1.0.0';
 this.protocol=host.match(/^\d+\.\d+/)?'http:':'https:';
 this.host=[this.protocol,'',host,path].join('/');
 this.prefix=prefix;
+
+
+this.button=function(name,click,dset={}){
+  let el=document.createElement('button');
+  el.innerText=name;
+  el.dataset.name=name;
+  el.classList.add('win-button');
+  el.addEventListener('click',click,false);
+  for(let k in dset){
+    el.dataset[k]=dset[k];
+  }
+  return el;
+};
+
 this.on=async function(){
   return await this.request('on');
 };

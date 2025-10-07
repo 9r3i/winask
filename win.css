@@ -1,0 +1,28 @@
+body{
+  margin:0px;
+  padding:10px;
+}
+li.li-button{
+  list-style-type:none;
+  display:inline-block;
+}
+button.win-button{
+  margin:5px;
+}
+span.status{
+  margin-left:5px;
+  font-size:0.8em;
+  border-radius:5px;
+  background-color:#777;
+  color:#fff;
+  padding:3px 7px;
+}
+span.status-online{
+  background-color:#7b3;
+}
+span.status-offline{
+  background-color:#b33;
+}
+div.win-all{
+  margin:50px 0px 50px;
+}

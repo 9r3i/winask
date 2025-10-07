@@ -1,3 +1,70 @@
+let comx=[
+    'shela-acrologic-tonnishly.ngrok-free.app',
+    'uninnocently-unprovoking-marcelina.ngrok-free.app',
+    'gyrally-vaned-meggan.ngrok-free.app',
+    'merlene-zincous-unmercurially.ngrok-free.app',
+    'hypothetically-prehexameral-khadijah.ngrok-free.app',
+    'loyal-prime-falcon.ngrok-free.app',
+    '127.0.0.1',
+],
+servers={
+  aisyah01:{
+    name:'lab-aisyah01',
+    host:[
+      //'192.168.1.22',
+      'shela-acrologic-tonnishly.ngrok-free.app',
+      //'odontological-devyn-chorioallantoic.ngrok-free.app',
+    ],
+  },
+  aisyah02:{
+    name:'lab-aisyah02',
+    host:[
+      //'192.168.1.15',
+      // -- 'uninnocently-unprovoking-marcelina.ngrok-free.app',
+      //'myrl-applausive-semisuccessfully.ngrok-free.app',
+      'postumbilical-clavately-arlinda.ngrok-free.dev',
+    ],
+  },
+  aisyah03:{
+    name:'lab-aisyah03',
+    host:[
+      //'192.168.1.20',
+      'gyrally-vaned-meggan.ngrok-free.app',
+      //'elane-heteromorphic-maximina.ngrok-free.app',
+    ],
+  },
+  aisyah04:{
+    name:'lab-aisyah04',
+    host:[
+      //'192.168.1.18',
+      'merlene-zincous-unmercurially.ngrok-free.app',
+      //'unpatent-isabela-pneumatically.ngrok-free.app',
+    ],
+  },
+  aisyah05:{
+    name:'lab-aisyah05',
+    host:[
+      //'192.168.1.23',
+      'hypothetically-prehexameral-khadijah.ngrok-free.app',
+      //'waniest-botchily-pamella.ngrok-free.app',
+    ],
+  },
+  aakasep:{
+    name:'win11pro',
+    host:[
+      //'192.168.1.12',
+      //'loyal-prime-falcon.ngrok-free.app',
+      '127.0.0.1',
+    ],
+  },
+  hciblaster:{
+    name:'ak007',
+    host:[
+      '127.0.0.1',
+      //'careful-urchin-curiously.ngrok-free.app',
+    ],
+  },
+},
 commands={
   shutdown:{
     method:'pass',
@@ -23,6 +90,10 @@ commands={
     method:'shell',
     cmd:'powercfg /batteryreport',
   },
+  message:{
+    method:'pass',
+    cmd:'msg * /server:<server_name> "hey, kamu lagi apa?"',
+  },
   on:{
     method:'on',
     cmd:'',
@@ -31,7 +102,19 @@ commands={
     method:'test',
     cmd:'dir',
   },
+  whoami:{
+    method:'shell',
+    cmd:'whoami',
+  },
 };
+
+function pre(){
+  let el=document.createElement('pre');
+  el.innerText='testing';
+  return el.outerHTML;
+}
+
+init(servers,commands);
 
 /* initialize */
 async function init(servers={},commands={}){
@@ -62,6 +145,12 @@ async function init(servers={},commands={}){
           if(!wc.hasOwnProperty(this.dataset.method)){
             this.innerText=':error';
           }
+          if(this.dataset.name=='message'){
+            let msg=prompt('Message:','Hi there!'),
+            cmd='msg * /server:'+this.dataset.server+' "'+msg+'"',
+            res=await wc[this.dataset.method](cmd);
+            return;
+          }
           this.innerText='Loading...';
           this.pre.innerText='Loading...';
           let res=await wc[this.dataset.method](this.dataset.cmd);
@@ -72,6 +161,7 @@ async function init(servers={},commands={}){
           cmd:command.cmd,
           host:host,
           name:cname,
+          server:server.name,
         }),
         liThree=WE.element('li',null,{
           'class':'li-button',
@@ -79,6 +169,7 @@ async function init(servers={},commands={}){
         btn.appendTo(liThree);
         btn.pre=pre;
       }
+      
     }
     pre.appendTo(liOne);
     let wc=new WinClient(server.host[0]);
@@ -128,6 +219,8 @@ async function isOnline(statuses){
       }
   return true;
 }
+
+
 
 /* windows element */
 ;function WinElement(){
@@ -243,3 +336,11 @@ this.temp=function(){
   return false;
 };
 };
+
+
+
+
+
+
+
+

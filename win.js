@@ -146,8 +146,9 @@ async function init(servers={},commands={}){
             this.innerText=':error';
           }
           if(this.dataset.name=='message'){
-            let msg=prompt('Message:','Hi there!'),
-            cmd='msg * /server:'+this.dataset.server+' "'+msg+'"',
+            let msg=prompt('Message:','Hi there!');
+            if(!msg){return;}
+            let cmd='msg * /server:'+this.dataset.server+' "'+msg+'"',
             res=await wc[this.dataset.method](cmd);
             return;
           }

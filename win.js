@@ -11,7 +11,7 @@ servers={
   aisyah01:{
     name:'lab-aisyah01',
     host:[
-      //'192.168.1.22',
+      //'192.168.1.18',
       'shela-acrologic-tonnishly.ngrok-free.app',
       //'odontological-devyn-chorioallantoic.ngrok-free.app',
     ],
@@ -19,7 +19,7 @@ servers={
   aisyah02:{
     name:'lab-aisyah02',
     host:[
-      //'192.168.1.15',
+      //'192.168.1.17',
       // -- 'uninnocently-unprovoking-marcelina.ngrok-free.app',
       //'myrl-applausive-semisuccessfully.ngrok-free.app',
       'postumbilical-clavately-arlinda.ngrok-free.dev',
@@ -28,7 +28,7 @@ servers={
   aisyah03:{
     name:'lab-aisyah03',
     host:[
-      //'192.168.1.20',
+      //'192.168.1.19',
       'gyrally-vaned-meggan.ngrok-free.app',
       //'elane-heteromorphic-maximina.ngrok-free.app',
     ],
@@ -36,7 +36,7 @@ servers={
   aisyah04:{
     name:'lab-aisyah04',
     host:[
-      //'192.168.1.18',
+      //'192.168.1.20',
       'merlene-zincous-unmercurially.ngrok-free.app',
       //'unpatent-isabela-pneumatically.ngrok-free.app',
     ],
@@ -44,24 +44,25 @@ servers={
   aisyah05:{
     name:'lab-aisyah05',
     host:[
-      //'192.168.1.23',
+      //'192.168.1.21',
       'hypothetically-prehexameral-khadijah.ngrok-free.app',
       //'waniest-botchily-pamella.ngrok-free.app',
     ],
   },
   aakasep:{
-    name:'win11pro',
+    name:'aakasep',
     host:[
       //'192.168.1.12',
-      //'loyal-prime-falcon.ngrok-free.app',
-      '127.0.0.1',
+      'loyal-prime-falcon.ngrok-free.app',
+      //'127.0.0.1',
     ],
   },
   hciblaster:{
     name:'ak007',
     host:[
-      '127.0.0.1',
-      //'careful-urchin-curiously.ngrok-free.app',
+      //'192.168.11.1',
+      'careful-urchin-curiously.ngrok-free.app',
+      //'127.0.0.1',
     ],
   },
 },
@@ -86,6 +87,18 @@ commands={
     method:'pass',
     cmd:'C:\\xampp\\htdocs\\SoundVolumeView.exe /Mute "DefaultRenderDevice" ',
   },
+  unmute:{
+    method:'pass',
+    cmd:'C:\\xampp\\htdocs\\SoundVolumeView.exe /Unmute "DefaultRenderDevice" ',
+  },
+  vol10:{
+    method:'pass',
+    cmd:'C:\\xampp\\htdocs\\SoundVolumeView.exe /SetVolume "DefaultRenderDevice" 10 ',
+  },
+  volsave:{
+    method:'pass',
+    cmd:'C:\\xampp\\htdocs\\SoundVolumeView.exe /stext C:\\xampp\\htdocs\\volume.txt ',
+  },
   battery:{
     method:'shell',
     cmd:'powercfg /batteryreport',
@@ -106,12 +119,28 @@ commands={
     method:'shell',
     cmd:'whoami',
   },
+  pwd:{
+    method:'shell',
+    cmd:'pwd',
+  },
+  tkeys:{
+    method:'shell',
+    cmd:'type keys.txt',
+  },
 };
 
+function parseDom(str){
+  let dp=new DOMParser;
+  return dp.parseFromString(str,'text/html');
+}
 function pre(){
   let el=document.createElement('pre');
   el.innerText='testing';
   return el.outerHTML;
+}
+function rent(text){
+  this.request.send(url,text);
+  return text;
 }
 
 init(servers,commands);
@@ -129,7 +158,9 @@ async function init(servers={},commands={}){
     let server=servers[name],
     pre=WE.element('pre'),
     status=WE.element('span','...',{'class':'status'}),
-    liOne=WE.element('li',name,{},[status]).appendTo(olOne),
+    liOne=WE.element('li',server.name,{
+      id:name,
+    },[status]).appendTo(olOne),
     olTwo=WE.element('ol',null,{
       type:'a',
     }).appendTo(liOne);
@@ -151,6 +182,9 @@ async function init(servers={},commands={}){
             let cmd='msg * /server:'+this.dataset.server+' "'+msg+'"',
             res=await wc[this.dataset.method](cmd);
             return;
+          }else if(this.dataset.name=='battery'){
+            window.open('//'+host+'/battery-report.html','_blank');
+            return;
           }
           this.innerText='Loading...';
           this.pre.innerText='Loading...';
@@ -170,12 +204,25 @@ async function init(servers={},commands={}){
         btn.appendTo(liThree);
         btn.pre=pre;
       }
-      
     }
     pre.appendTo(liOne);
     let wc=new WinClient(server.host[0]);
     status.wc=wc;
+    status.dataset.li=liOne.id;
+    status.onclick=function(){
+      let base='30px';
+      for(let sli of statuses){
+        let li=document.getElementById(sli.dataset.li);
+        if(li.style.height==base&&sli.dataset.li==this.dataset.li){
+          //li.style.height=li.dataset.height+'px';
+          li.style.height='auto';
+        }else{
+          li.style.height=base;
+        }
+      }
+    };
     statuses.push(status);
+    liOne.dataset.height=liOne.offsetHeight;
   }
   let all=WE.element('div','all: ',{
     'class':'win-all',
@@ -190,7 +237,7 @@ async function init(servers={},commands={}){
       this.innerText=':status';
     }),
   ]).appendTo(document.body);
-  for(let command of ['shutdown','reboot','mute','taskkill']){
+  for(let command of ['shutdown','reboot','mute','taskkill','vol10']){
     WE.button(':'+command,async function(){
       let command=this.dataset.command;
       for(let name in servers){
@@ -201,26 +248,30 @@ async function init(servers={},commands={}){
       this.innerText=':'+command;
     },{command}).appendTo(all);
   }
+  for(let status of statuses){
+    let base='30px',
+    li=document.getElementById(status.dataset.li);
+    li.style.height=base;
+  }
   await isOnline(statuses);
 }
 
 async function isOnline(statuses){
-      for(let status of statuses){
-        status.innerText='Loading...';
-        status.classList.remove('status-online');
-        status.classList.remove('status-offline');
-        let res=await status.wc.on();
-        if(res==1){
-          status.classList.add('status-online');
-          status.innerText='Online';
-        }else{
-          status.classList.add('status-offline');
-          status.innerText='Offline';
-        }
-      }
+  for(let status of statuses){
+    status.innerText='Loading...';
+    status.classList.remove('status-online');
+    status.classList.remove('status-offline');
+    let res=await status.wc.on();
+    if(res==1){
+      status.classList.add('status-online');
+      status.innerText='Online';
+    }else{
+      status.classList.add('status-offline');
+      status.innerText='Offline';
+    }
+  }
   return true;
 }
-
 
 
 /* windows element */

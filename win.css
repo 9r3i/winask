@@ -1,21 +1,92 @@
 body{
   margin:0px;
   padding:10px;
+  font-family:sans-serif;
 }
 li.li-button{
   list-style-type:none;
   display:inline-block;
 }
+div.win-all{
+  margin:50px 0px 50px;
+  border-top:5px solid #eed;
+  border-bottom:5px solid #eed;
+  padding-top:10px;
+}
+
+/* list */
+ol[type="i"]{
+  padding-left:0px;
+}
+ol[type="i"] li{
+  border-top:5px solid #eed;
+  padding-top:10px;
+  transition:all 0.2s ease 0s;
+  overflow:hidden;
+}
+ol[type="i"] li:last-child{
+  border-bottom:5px solid #eed;
+}
+ol[type="i"] li li{
+  border-top:0px none;
+  padding-top:10px;
+}
+ol[type="i"] li li:last-child{
+  border-bottom:0px none;
+}
+ol[type="i"] li pre{
+  height:auto;
+  overflow:auto;
+  padding:10px;
+  border:1px solid #ddd;
+}
+
+/* buttons */
 button.win-button{
   margin:5px;
+  border:0px none;
+  border-radius:5px;
+  padding:5px 11px;
+  font-family:sans-serif;
+  background-color:#ddd;
+  box-shadow:1px 1px 5px #999;
+  transition:all 0.3s ease 0s;
 }
+button.win-button:hover{
+  background-color:#ddc;
+  box-shadow:2px 2px 6px #888;
+  padding:5px 10px 5px 12px;
+}
+button.win-button[data-method="pass"]{
+  background-color:#fbb;
+}
+button.win-button[data-method="pass"]:hover{
+  background-color:#eaa;
+}
+button.win-button[data-method="shell"]{
+  background-color:#bdf;
+}
+button.win-button[data-method="shell"]:hover{
+  background-color:#ace;
+}
+button.win-button[data-method="on"]{
+  background-color:#bfd;
+}
+button.win-button[data-method="on"]:hover{
+  background-color:#aec;
+}
+
+
+/* status */
 span.status{
   margin-left:5px;
-  font-size:0.8em;
+  font-size:0.7em;
   border-radius:5px;
   background-color:#777;
   color:#fff;
   padding:3px 7px;
+  font-family:sans-serif;
+  cursor:pointer;
 }
 span.status-online{
   background-color:#7b3;
@@ -23,6 +94,5 @@ span.status-online{
 span.status-offline{
   background-color:#b33;
 }
-div.win-all{
-  margin:50px 0px 50px;
-}
+
+

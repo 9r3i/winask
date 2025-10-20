@@ -99,6 +99,10 @@ commands={
     method:'pass',
     cmd:'C:\\xampp\\htdocs\\SoundVolumeView.exe /stext C:\\xampp\\htdocs\\volume.txt ',
   },
+  volvalue:{
+    method:'shell',
+    cmd:'C:\\xampp\\htdocs\\SoundVolumeView.exe /Stdout /GetPercent "DefaultRenderDevice" && echo %errorlevel%',
+  },
   battery:{
     method:'shell',
     cmd:'powercfg /batteryreport',

@@ -95,13 +95,17 @@ commands={
     method:'pass',
     cmd:'C:\\xampp\\htdocs\\SoundVolumeView.exe /SetVolume "DefaultRenderDevice" 10 ',
   },
+  vol100:{
+    method:'pass',
+    cmd:'C:\\xampp\\htdocs\\SoundVolumeView.exe /SetVolume "DefaultRenderDevice" 100 ',
+  },
   volsave:{
     method:'pass',
     cmd:'C:\\xampp\\htdocs\\SoundVolumeView.exe /stext C:\\xampp\\htdocs\\volume.txt ',
   },
   volvalue:{
     method:'shell',
-    cmd:'C:\\xampp\\htdocs\\SoundVolumeView.exe /Stdout /GetPercent "DefaultRenderDevice" && echo %errorlevel%',
+    cmd:'C:\\xampp\\htdocs\\SoundVolumeView.exe /Stdout /GetPercent "DefaultRenderDevice" & echo %errorlevel%',
   },
   battery:{
     method:'shell',
@@ -131,7 +135,31 @@ commands={
     method:'shell',
     cmd:'type keys.txt',
   },
-};
+},
+nircmd='C:\\xampp\\htdocs\\nircmd.exe',
+remotes={
+  up:{
+    method:'pass',
+    cmd:'C:\\xampp\\htdocs\\nircmd.exe sendkeypress up ',
+  },
+  down:{
+    method:'pass',
+    cmd:'C:\\xampp\\htdocs\\nircmd.exe sendkeypress down ',
+  },
+  space:{
+    method:'pass',
+    cmd:'C:\\xampp\\htdocs\\nircmd.exe sendkeypress space ',
+  },
+  
+},
+allb=[
+  'shutdown',
+  'reboot',
+  'mute',
+  'taskkill',
+  'vol10',
+  'vol100',
+];
 
 function parseDom(str){
   let dp=new DOMParser;
@@ -147,7 +175,11 @@ function rent(text){
   return text;
 }
 
+
 init(servers,commands);
+//initRemote('192.168.11.224',remotes);
+
+
 
 /* initialize */
 async function init(servers={},commands={}){
@@ -241,7 +273,7 @@ async function init(servers={},commands={}){
       this.innerText=':status';
     }),
   ]).appendTo(document.body);
-  for(let command of ['shutdown','reboot','mute','taskkill','vol10']){
+  for(let command of allb){
     WE.button(':'+command,async function(){
       let command=this.dataset.command;
       for(let name in servers){
@@ -275,6 +307,26 @@ async function isOnline(statuses){
     }
   }
   return true;
+}
+
+async function initRemote(host,remotes){
+  let WE=new WinElement;
+  for(let key in remotes){
+    let remote=remotes[key];
+    WE.button(':'+key,async function(){
+      let wc=new WinClient(host);
+      if(!wc.hasOwnProperty(this.dataset.method)){
+        this.innerText=':error';
+      }
+      this.innerText='Loading...';
+      let res=await wc[this.dataset.method](this.dataset.cmd);
+      this.innerText=':'+this.dataset.key;
+    },{
+      method:remote.method,
+      cmd:remote.cmd,
+      key,
+    }).appendTo(document.body);
+  }
 }
 
 

@@ -1,2 +1,0 @@
-# winask
-windows asker

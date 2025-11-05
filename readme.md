@@ -32,6 +32,16 @@ net user <username> *
 net localgroup administrators <username> /add
 ```
 
+# local DNS hack
+* file location:
+```C:\Windows\System32\drivers\etc\hosts```
+
+* ---contains---
+```
+# sample
+127.0.0.1 www.example.com
+```
+
 # install scoop
 using powershell
 ```

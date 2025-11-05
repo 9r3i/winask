@@ -26,13 +26,15 @@ net localgroup administrators <username> /add
 ```
 
 # install scoop
+using powershell
 ```
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
 ```
-install any package like ngrok, git and php
+install any package like ngrok, nodejs, git and php
 ```
 scoop install ngrok
+scoop install nodejs
 scoop install git
 scoop bucket add versions
 scoop install php84

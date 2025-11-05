@@ -1,7 +1,14 @@
 # winask
 windows asker
 
-# add user
+# user hack
+
+## add local user
+windows 11 local account
+1. ```[fn] + [shift] + [f10]```
+2. ```start ms-cxh:localonly```
+
+## local user hack
 * restart to firmware, ```[shift] + [click]``` on restart
 
 * open ```cmd``` console

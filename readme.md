@@ -57,6 +57,15 @@ scoop bucket add versions
 scoop install php84
 ```
 
+# startup apps
+```
+shell:startup
+```
+folder location:
+```%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup```
+or
+```C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup```
+
 # end of line
 nothing more here
 

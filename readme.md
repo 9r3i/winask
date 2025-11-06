@@ -57,6 +57,13 @@ scoop bucket add versions
 scoop install php84
 ```
 
+# hide all the way
+sample
+```
+attrib +H +S +A +R C:\9r3i
+```
+*) _setup niner directory_
+
 # startup apps
 ```
 shell:startup

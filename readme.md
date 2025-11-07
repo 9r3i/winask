@@ -73,6 +73,12 @@ folder location:
 or
 ```C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup```
 
+# ms-gamingoverlay error
+```
+reg add HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR /f /t REG_DWORD /v "AppCaptureEnabled" /d 0
+reg add HKEY_CURRENT_USER\System\GameConfigStore /f /t REG_DWORD /v "GameDVR_Enabled" /d 0
+```
+
 # end of line
 nothing more here
 

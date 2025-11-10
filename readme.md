@@ -79,6 +79,14 @@ reg add HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR /f /
 reg add HKEY_CURRENT_USER\System\GameConfigStore /f /t REG_DWORD /v "GameDVR_Enabled" /d 0
 ```
 
+# delete the update service
+```wuauserv``` = win update service
+
+delete this to prevent auto update that make me sick
+```
+sc delete wuauserv
+```
+
 # end of line
 nothing more here
 

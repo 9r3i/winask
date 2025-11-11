@@ -87,6 +87,12 @@ delete this to prevent auto update that make me sick
 sc delete wuauserv
 ```
 
+# wsl (windows subsystem for linux)
+```
+wsl.exe --list --online
+wsl.exe --install [Distro]
+```
+
 # end of line
 nothing more here
 

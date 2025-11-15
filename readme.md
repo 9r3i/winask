@@ -93,6 +93,11 @@ wsl.exe --list --online
 wsl.exe --install [Distro]
 ```
 
+## kali nethunter
+```
+pkg install wget && wget -O install-nethunter-termux https://offs.ec/2MceZWr && chmod +x install-nethunter-termux && ./install-nethunter-termux
+```
+
 # end of line
 nothing more here
 

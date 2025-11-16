@@ -98,6 +98,16 @@ wsl.exe --install [Distro]
 pkg install wget && wget -O install-nethunter-termux https://offs.ec/2MceZWr && chmod +x install-nethunter-termux && ./install-nethunter-termux
 ```
 
+## netcat sample
+one computer listen
+```
+netcat -l 1234 > test.txt
+```
+other computer send
+```
+cat source.txt | netcat 192.168.0.1 1234 -q 1
+```
+
 # end of line
 nothing more here
 

@@ -108,6 +108,33 @@ other computer send
 cat source.txt | netcat 192.168.0.1 1234 -q 1
 ```
 
+## create _.deb_ file
+
+### 1. Create directory structure
+```
+mkdir -p hello-world_1.0-1_amd64/usr/local/bin
+mkdir hello-world_1.0-1_amd64/DEBIAN
+```
+### 2. Create a simple executable (e.g., a shell script)
+```
+echo '#!/bin/bash' > hello-world_1.0-1_amd64/usr/local/bin/hello
+echo 'echo "Hello, Debian package!"' >> hello-world_1.0-1_amd64/usr/local/bin/hello
+chmod +x hello-world_1.0-1_amd64/usr/local/bin/hello
+```
+
+### 3. Create the control file
+```
+echo 'Package: hello-world' > hello-world_1.0-1_amd64/DEBIAN/control
+echo 'Version: 1.0' >> hello-world_1.0-1_amd64/DEBIAN/control
+echo 'Architecture: amd64' >> hello-world_1.0-1_amd64/DEBIAN/control
+echo 'Maintainer: Your Name <your.email@example.com>' >> hello-world_1.0-1_amd64/DEBIAN/control
+echo 'Description: A simple hello world application.' >> hello-world_1.0-1_amd64/DEBIAN/control
+```
+### 4. Build the package
+```
+dpkg --build hello-world_1.0-1_amd64
+```
+
 # end of line
 nothing more here
 

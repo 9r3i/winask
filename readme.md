@@ -87,6 +87,13 @@ delete this to prevent auto update that make me sick
 sc delete wuauserv
 ```
 
+# ai script file register
+call ```regedit``` to register this line
+```
+HKEY_CLASSES_ROOT\.ais\shell\open\command
+value: c:\9r3i\ai\bin\ai.exe "%1"
+```
+
 # wsl (windows subsystem for linux)
 ```
 wsl.exe --list --online

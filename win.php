@@ -8,11 +8,12 @@ new win;
  * started at september 23rd 2025
  */
 class win{
-  const version='1.0.0';
+  const version='1.1.0';
   protected $prefixKey='win';
   protected $methods=[
     'shell',
     'pass',
+    'write',
     'test',
     'on',
   ];
@@ -44,6 +45,10 @@ class win{
   }
   private function test(){
     return json_encode(func_get_args());
+  }
+  private function write(string $file='',string $content=''){
+    $put=@file_put_contents($file,$content);
+    return json_encode($put);
   }
   /* execute the command line with passthru */
   private function pass(string $cmd=''){

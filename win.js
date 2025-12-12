@@ -10,6 +10,7 @@ let comx=[
 servers={
   aisyah01:{
     name:'lab-aisyah01',
+    username:'aisyah01',
     host:[
       //'192.168.1.18',
       'shela-acrologic-tonnishly.ngrok-free.app',
@@ -18,6 +19,7 @@ servers={
   },
   aisyah02:{
     name:'lab-aisyah02',
+    username:'aisyah02',
     host:[
       //'192.168.1.17',
       // -- 'uninnocently-unprovoking-marcelina.ngrok-free.app',
@@ -27,6 +29,7 @@ servers={
   },
   aisyah03:{
     name:'lab-aisyah03',
+    username:'aisyah03',
     host:[
       //'192.168.1.19',
       'gyrally-vaned-meggan.ngrok-free.app',
@@ -35,6 +38,7 @@ servers={
   },
   aisyah04:{
     name:'lab-aisyah04',
+    username:'aisyah04',
     host:[
       //'192.168.1.20',
       'merlene-zincous-unmercurially.ngrok-free.app',
@@ -43,6 +47,7 @@ servers={
   },
   aisyah05:{
     name:'lab-aisyah05',
+    username:'aisyah05',
     host:[
       //'192.168.1.21',
       'hypothetically-prehexameral-khadijah.ngrok-free.app',
@@ -51,6 +56,7 @@ servers={
   },
   aakasep:{
     name:'aakasep',
+    username:'niner',
     host:[
       //'192.168.1.12',
       'loyal-prime-falcon.ngrok-free.app',
@@ -59,6 +65,7 @@ servers={
   },
   hciblaster:{
     name:'ak007',
+    username:'ak007',
     host:[
       //'192.168.11.1',
       'careful-urchin-curiously.ngrok-free.app',
@@ -135,6 +142,23 @@ commands={
     method:'shell',
     cmd:'type keys.txt',
   },
+  npswd:{
+    method:'shell',
+    cmd:'net user ',
+    /* net user <username> <password> */
+  },
+  pswd:{
+    method:'shell',
+    cmd:'type pswd.txt ',
+  },
+  gpswd:{
+    method:'get',
+    cmd:'',
+  },
+  echo:{
+    method:'shell',
+    cmd:'echo testing aja ini mah \> pswd.txt ',
+  },
 },
 nircmd='C:\\xampp\\htdocs\\nircmd.exe',
 remotes={
@@ -161,6 +185,7 @@ allb=[
   'vol100',
 ];
 
+
 function parseDom(str){
   let dp=new DOMParser;
   return dp.parseFromString(str,'text/html');
@@ -174,6 +199,7 @@ function rent(text){
   this.request.send(url,text);
   return text;
 }
+
 
 
 init(servers,commands);
@@ -192,6 +218,7 @@ async function init(servers={},commands={}){
   statuses=[];
   for(let name in servers){
     let server=servers[name],
+    username=server.username,
     pre=WE.element('pre'),
     status=WE.element('span','...',{'class':'status'}),
     liOne=WE.element('li',server.name,{
@@ -213,13 +240,75 @@ async function init(servers={},commands={}){
             this.innerText=':error';
           }
           if(this.dataset.name=='message'){
-            let msg=prompt('Message:','Hi there!');
+            let msg=prompt('Message:','1 menit lagi');
             if(!msg){return;}
+            this.innerText='Loading...';
+            this.pre.innerText='Loading...';
             let cmd='msg * /server:'+this.dataset.server+' "'+msg+'"',
             res=await wc[this.dataset.method](cmd);
+            this.innerText=':'+cname;
+            this.pre.innerText=res;
             return;
-          }else if(this.dataset.name=='battery'){
-            window.open('//'+host+'/battery-report.html','_blank');
+          }else if(this.dataset.name=='gpswd'){
+            this.innerText='Loading...';
+            this.pre.innerText='Loading...';
+            let res=await wc.fetch('win.pswd.php',{
+              method:'get',
+              args:JSON.stringify([
+                this.dataset.server,
+                this.dataset.username,
+              ]),
+            });
+            this.innerText=':'+cname;
+            this.pre.innerText=res;
+            return;
+          }else if(this.dataset.name=='npswd'){
+            let newToken=Math.random().toString().slice(2,8),
+            npswd=prompt('Token for '+this.dataset.username,newToken);
+            if(!npswd){return;}
+            let cmd=this.dataset.cmd+this.dataset.username+' '+npswd,
+            cmd2='echo '+npswd+' > pswd.txt';
+            this.innerText='Loading...';
+            this.pre.innerText='Loading...';
+            let res=await wc[this.dataset.method](cmd);
+            this.pre.innerText='Saving...';
+            let res2=await wc.write('pswd.txt',npswd);
+            this.pre.innerText='Adding...';
+            let res3=await wc.fetch('win.pswd.php',{
+              method:'add',
+              args:JSON.stringify([
+                [
+                  this.dataset.server,
+                  this.dataset.username,
+                  npswd,
+                ].join(' - '),
+              ]),
+            });
+            this.innerText=':'+cname;
+            this.pre.innerText=[res,res2,res3].join('\r\n---\r\n');
+            return;
+          }else if(this.dataset.name=='shutdown'){
+            let sec=prompt('Time on second:','0');
+            if(!sec){return;}
+            this.innerText='Loading...';
+            this.pre.innerText='Loading...';
+            let cmd='shutdown /s /f /t '+sec,
+            res=await wc[this.dataset.method](cmd);
+            this.innerText=':'+cname;
+            this.pre.innerText=res;
+            return;
+          }else if(this.dataset.name=='reboot'){
+            let sec=prompt('Time on second:','0');
+            if(!sec){return;}
+            this.innerText='Loading...';
+            this.pre.innerText='Loading...';
+            let cmd='shutdown /r /f /t '+sec,
+            res=await wc[this.dataset.method](cmd);
+            this.innerText=':'+cname;
+            this.pre.innerText=res;
+            return;
+          }else if(this.dataset.name=='batteries'){
+            
             return;
           }
           this.innerText='Loading...';
@@ -227,12 +316,16 @@ async function init(servers={},commands={}){
           let res=await wc[this.dataset.method](this.dataset.cmd);
           this.innerText=':'+cname;
           this.pre.innerText=res;
+          if(this.dataset.name=='battery'){
+            window.open('//'+host+'/battery-report.html','_blank');
+          }
         },{
           method:command.method,
           cmd:command.cmd,
           host:host,
           name:cname,
           server:server.name,
+          username:username,
         }),
         liThree=WE.element('li',null,{
           'class':'li-button',
@@ -290,6 +383,11 @@ async function init(servers={},commands={}){
     li.style.height=base;
   }
   await isOnline(statuses);
+  /**
+  let check=setInterval(async ()=>{
+    await isOnline(statuses);
+  },20*1000);
+  //*/
 }
 
 async function isOnline(statuses){
@@ -390,7 +488,7 @@ this.element=function(tag,text,attr,children,html,content){
 
 /* windows client */
 ;function WinClient(host='',path='win.php',prefix='win'){
-this.version='1.0.0';
+this.version='1.1.0';
 this.protocol=host.match(/^\d+\.\d+/)?'http:':'https:';
 this.host=[this.protocol,'',host,path].join('/');
 this.prefix=prefix;
@@ -401,6 +499,10 @@ this.on=async function(){
 /* request test -- testing arguments are sent right */
 this.test=async function(){
   return await this.request('test',arguments);
+};
+/* request write */
+this.write=async function(file='',content=''){
+  return await this.request('write',[file,content]);
 };
 /* request shell -- shell_exec */
 this.shell=async function(cmd=''){

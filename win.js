@@ -64,7 +64,7 @@ servers={
     ],
   },
   hciblaster:{
-    name:'ak007',
+    name:'atibs',
     username:'ak007',
     host:[
       //'192.168.11.1',
@@ -155,9 +155,13 @@ commands={
     method:'get',
     cmd:'',
   },
-  echo:{
+  session:{
     method:'shell',
-    cmd:'echo testing aja ini mah \> pswd.txt ',
+    cmd:'query session',
+  },
+  logoff:{
+    method:'shell',
+    cmd:'logoff 1',
   },
 },
 nircmd='C:\\xampp\\htdocs\\nircmd.exe',
@@ -286,6 +290,16 @@ async function init(servers={},commands={}){
             });
             this.innerText=':'+cname;
             this.pre.innerText=[res,res2,res3].join('\r\n---\r\n');
+            return;
+          }else if(this.dataset.name=='logoff'){
+            let sec=prompt('Session ID:','1');
+            if(!sec){return;}
+            this.innerText='Loading...';
+            this.pre.innerText='Loading...';
+            let cmd='logoff '+sec,
+            res=await wc[this.dataset.method](cmd);
+            this.innerText=':'+cname;
+            this.pre.innerText=res;
             return;
           }else if(this.dataset.name=='shutdown'){
             let sec=prompt('Time on second:','0');
